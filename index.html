@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>База знаний по информационной безопасности</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3f4;--panel:#fff;--ink:#0e1a20;--mute:#4d6168;--line:#cfdcdf;--ac:#00798c;--acink:#fff;--soft:#dcecef;--red:#d92d3a;--yel:#e8a300;--grn:#1f9d55;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0f14;--panel:#111a22;--ink:#dfeaf0;--mute:#8fa5b2;--line:#1f2f3a;--ac:#3dd6c6;--acink:#04201d;--soft:#14303a}}
+:root[data-theme="dark"]{--bg:#0a0f14;--panel:#111a22;--ink:#dfeaf0;--mute:#8fa5b2;--line:#1f2f3a;--ac:#3dd6c6;--acink:#04201d;--soft:#14303a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 "IBM Plex Sans",system-ui,Arial,sans-serif}
+h1,h2,h3{font-family:"JetBrains Mono",monospace;font-weight:700;line-height:1.25;margin:0}
+a{color:var(--ac)}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.w{max-width:980px;margin:0 auto;padding:0 20px}
+header{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top{display:flex;align-items:center;gap:14px;padding:10px 20px;height:58px}
+.brand{font:700 15px "JetBrains Mono",monospace;text-decoration:none;color:var(--ink);white-space:nowrap;margin-right:auto}
+.pf{display:flex;align-items:center;gap:10px;padding:4px 14px 4px 4px;border-radius:6px;text-decoration:none;color:var(--ink);border:1px solid var(--line);font-weight:700;font-size:15px;max-width:220px}
+.pf span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pf[aria-current="page"]{border-color:var(--ac)}
+.pa{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ac);color:var(--acink);font:700 14px "JetBrains Mono",monospace;flex:none}
+#mt{display:none;font-size:22px;line-height:1;padding:8px 12px;border:1px solid var(--line);border-radius:4px;background:none;color:var(--ink);cursor:pointer}
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);max-width:1260px;margin:0 auto}
+#app{padding:0 28px;max-width:1010px}
+nav#nav{position:sticky;top:58px;align-self:start;max-height:calc(100vh - 58px);overflow-y:auto;padding:20px 12px 20px 20px;display:block}
+nav#nav h2{font-size:.8rem;color:var(--mute);margin:0 0 10px 14px;font-weight:500}
+nav a{display:block;padding:10px 14px;margin-bottom:2px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:15px;font-weight:500}
+nav a:hover{background:var(--soft)}
+nav a[aria-current="page"]{background:var(--ac);color:var(--acink)}
+.hero{padding:56px 0 36px}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);max-width:18ch}
+.hero p{max-width:60ch;color:var(--mute);font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;padding-bottom:40px}
+.card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px;text-decoration:none;color:var(--ink)}
+.card:hover{border-color:var(--ac)}
+.card h3{font-size:1rem;margin-bottom:8px}
+.card p{margin:0;color:var(--mute);font-size:15px;line-height:1.55}
+.crumb{font-size:14px;color:var(--mute);padding-top:28px}
+.page h1{font-size:clamp(1.6rem,4vw,2.4rem);margin:8px 0 14px}
+.lead{font-size:1.1rem;color:var(--mute);max-width:64ch}
+.topic{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:24px;margin:18px 0}
+.topic h2{font-size:1.2rem;margin-bottom:10px}
+.topic p{margin:0 0 12px;max-width:68ch}
+.topic ul{margin:0;padding-left:22px}
+.topic li{margin-bottom:4px}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 40px}
+.pn a{padding:10px 16px;border:1px solid var(--line);border-radius:6px;text-decoration:none;background:var(--panel)}
+.pw{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:24px;margin:20px 0}
+.row{display:flex;gap:8px;max-width:520px}
+.row input{flex:1;min-width:0;padding:14px;font:inherit;border:2px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)}
+.row button{padding:0 16px;font:inherit;font-weight:700;border:2px solid var(--ac);border-radius:4px;background:none;color:var(--ac);cursor:pointer}
+.meter{display:flex;gap:6px;max-width:520px;margin:16px 0 8px}
+.meter i{flex:1;height:12px;border-radius:6px;background:var(--line);transition:background .2s}
+.meter[data-l="red"] i:nth-child(1){background:var(--red)}
+.meter[data-l="yellow"] i:nth-child(-n+2){background:var(--yel)}
+.meter[data-l="green"] i{background:var(--grn)}
+#lvl{font:700 1.2rem "JetBrains Mono",monospace;margin:0 0 4px}
+#lvl.red{color:var(--red)}#lvl.yellow{color:var(--yel)}#lvl.green{color:var(--grn)}
+.chk{list-style:none;padding:0;margin:14px 0 0}
+.chk li{padding-left:28px;position:relative;margin-bottom:4px}
+.chk li::before{content:"✗";position:absolute;left:4px;color:var(--red);font-weight:700}
+.chk li.ok::before{content:"✓";color:var(--grn)}
+.av{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font:700 1.6rem "JetBrains Mono",monospace;color:#fff;flex:none}
+.who{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.form{display:grid;gap:14px;max-width:520px}
+.form label{display:grid;gap:4px;font-weight:700;font-size:15px}
+.form input,.form select,.form textarea{padding:12px;font:inherit;font-weight:400;border:2px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)}
+.sw{display:flex;gap:8px}.sw button{width:34px;height:34px;border-radius:50%;border:3px solid transparent;cursor:pointer}.sw button[aria-pressed="true"]{border-color:var(--ink)}
+.btn{padding:12px 20px;font:700 16px "IBM Plex Sans",sans-serif;border:0;border-radius:4px;background:var(--ac);color:var(--acink);cursor:pointer}
+.btn.ghost{background:none;border:2px solid var(--ac);color:var(--ac)}
+.prog{height:12px;background:var(--line);border-radius:6px;overflow:hidden;max-width:520px;margin:8px 0}.prog i{display:block;height:100%;background:var(--ac)}
+.badges{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none;margin:0}
+.badges li{padding:6px 12px;border-radius:6px;background:var(--soft);font-size:14px}.badges li.off{opacity:.5}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0}
+.kpi div{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px;font-size:14px;color:var(--mute)}
+.kpi b{display:block;font:700 1.8rem "JetBrains Mono",monospace;color:var(--ac)}
+.hb{display:grid;grid-template-columns:140px 1fr 36px;gap:10px;align-items:center;font-size:15px;margin-bottom:6px}
+.hb .t{height:14px;background:var(--soft);border-radius:7px;overflow:hidden}.hb .t i{display:block;height:100%;background:var(--ac)}
+.cols{display:flex;gap:8px;height:170px}
+.cols div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:13px;text-align:center}
+.cols i{display:block;width:100%;background:var(--ac);border-radius:6px 6px 0 0;min-height:2px}
+.note{background:var(--soft);border-radius:4px;padding:14px 16px;font-size:15px;margin:16px 0}
+@media (max-width:700px){.hb{grid-template-columns:100px 1fr 30px}}
+.hero2{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;padding:44px 0 20px}
+.hero2 h1{font-size:clamp(1.7rem,4.2vw,2.8rem)}
+.hero2 .lead{margin:14px 0 20px}
+.scr{font:700 clamp(1.1rem,3vw,1.6rem) "JetBrains Mono",monospace;color:var(--ac);min-height:1.5em;margin:18px 0 0;letter-spacing:.02em}
+.scd{margin:0;color:var(--mute);min-height:1.7em;transition:opacity .3s}
+.acts{display:flex;gap:10px;flex-wrap:wrap}.acts a{text-decoration:none;display:inline-block}
+.shw{justify-self:center;text-align:center;max-width:340px}
+.shield{width:100%;height:auto}
+.shw small{display:block;color:var(--mute);font-size:14px;line-height:1.5;margin-top:4px}
+.ring{fill:none;stroke:var(--ac);stroke-width:2}
+.rg{transform-origin:150px 150px;animation:spin 40s linear infinite}
+.rg.b{animation-duration:28s;animation-direction:reverse}
+.core{transform-origin:150px 150px;animation:pulse 3.2s ease-in-out infinite}
+.tg{transform-origin:150px 150px;transform:rotate(var(--a))}
+.tg circle{fill:var(--red);opacity:0;transform-box:fill-box;transform-origin:center;animation:thr 5s ease-in infinite;animation-delay:var(--d)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:scale(1.05)}}
+@keyframes thr{0%{transform:translateY(0) scale(1);opacity:0}10%{opacity:1}58%{transform:translateY(28px) scale(1);opacity:1}70%,100%{transform:translateY(28px) scale(2.6);opacity:0}}
+.about{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:24px 0 8px}
+.about .topic{margin:0}.about h3{font-size:1rem;margin-bottom:8px}.about p{margin:0;font-size:16px}
+h2.sec{font-size:1.4rem;margin:32px 0 16px}
+@media (max-width:860px){.hero2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.rg,.core,.tg circle{animation:none}.scd{transition:none}}
+.tw{overflow-x:auto;margin:16px 0}
+.ut{border-collapse:collapse;width:100%;min-width:600px;background:var(--panel);border:1px solid var(--line)}
+.ut th,.ut td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
+.ut select{padding:8px;font:inherit;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.btn.dn{border-color:var(--red);color:var(--red)}.btn:disabled,.ut select:disabled{opacity:.45;cursor:not-allowed}
+body{background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:24px 24px}
+h1,h2,h3{letter-spacing:-.02em}
+.topic{border-left:4px solid var(--ac)}
+.card{border-top:3px solid var(--ac)}
+.crumb,nav#nav h2,.kpi div{font-family:"JetBrains Mono",monospace}
+.crumb{font-size:13px}
+nav a[aria-current="page"]::before{content:"> "}
+nav a:not([aria-current="page"]):hover::before{content:"> ";color:var(--ac)}
+.hero2 h1::before{content:"$ ";color:var(--ac)}
+footer{border-top:1px solid var(--line);padding:24px 0 36px;color:var(--mute);font-size:14px}
+@media (prefers-reduced-motion:reduce){.meter i{transition:none}}
+@media (max-width:860px){.shell{grid-template-columns:1fr}#mt{display:block}#app{padding:0 20px}
+nav#nav{position:fixed;z-index:20;top:0;left:0;bottom:0;max-height:none;width:270px;background:var(--panel);border-right:1px solid var(--line);padding-top:calc(20px + env(safe-area-inset-top,0px));transform:translateX(-105%);transition:transform .2s}
+nav#nav.open{transform:none}.pf span:last-child{display:none}.pf{padding:4px}}
+@media (prefers-reduced-motion:reduce){nav#nav{transition:none}}
+</style>
+</head>
+<body>
+<header><div class="top"><button id="mt" type="button" aria-label="Меню" aria-expanded="false" aria-controls="nav">☰</button><a class="brand" href="#/">Инфобезопасность</a><a class="pf" id="pf" href="#/profile" aria-label="Профиль"><span class="pa" id="pa">👤</span><span id="pn2">Профиль</span></a></div></header>
+<div class="shell"><nav id="nav" aria-label="Разделы"></nav><main id="app"></main></div>
+<footer><div class="w">Учебный проект: «Разработка веб-ресурса “База знаний по информационной безопасности”». Материалы носят образовательный характер; нормативные требования уточняйте в действующих редакциях первоисточников.</div></footer>
+<script>
+const S=[
+{id:"basics",t:"Основы",d:"Базовые понятия: цели защиты, риски и классификация данных.",lead:"Информационная безопасность — это защита информации и систем, которые её обрабатывают, от случайных и умышленных воздействий. Раздел объясняет понятия, на которых строится всё остальное.",
+tp:[{t:"Триада CIA: конфиденциальность, целостность, доступность",p:"Конфиденциальность означает, что данные видят только те, кому разрешено. Целостность гарантирует, что данные не изменены без разрешения. Доступность — это возможность получить данные и сервисы тогда, когда они нужны. Любая мера защиты направлена минимум на одну из этих целей.",k:["Шифрование защищает конфиденциальность.","Хеши и подписи защищают целостность.","Резервные копии и резервирование серверов поддерживают доступность.","Усиление одной цели может ослабить другую: строгие ограничения доступа снижают удобство."]},
+{t:"Угрозы, уязвимости и риски",p:"Актив — то, что нужно защищать (данные, сервер, репутация). Угроза — потенциальная причина вреда, уязвимость — слабое место, которым она может воспользоваться. Риск оценивают как сочетание вероятности события и размера ущерба.",k:["Определите активы и их ценность.","Оцените вероятность и ущерб по каждой угрозе.","Выберите стратегию: снизить, передать (страхование), принять или избежать риск."]},
+{t:"Классификация информации",p:"Данные делят по уровню важности, чтобы защищать их соразмерно. Например: публичные, внутренние, конфиденциальные и строго конфиденциальные. Уровень определяет, кто имеет доступ, как данные хранятся и передаются.",k:["Назначьте владельца каждому набору данных.","Маркируйте документы и хранилища.","Пересматривайте классификацию при изменении ценности данных."]}]},
+{id:"threats",t:"Угрозы",d:"Фишинг, вредоносное ПО, атаки на веб-приложения.",lead:"Атакующие используют как технические слабости, так и человеческие ошибки. Ниже — самые распространённые типы атак и способы им противостоять.",
+tp:[{t:"Фишинг и социальная инженерия",p:"Фишинг — рассылка поддельных писем, сообщений или сайтов, цель которых украсть пароли, данные карт или заставить установить вредоносную программу. Социальная инженерия шире: злоумышленник давит на срочность, доверие или авторитет, чтобы человек сам совершил нужное действие.",k:["Проверяйте адрес отправителя и реальную ссылку перед переходом.","Не открывайте неожиданные вложения.","Сообщайте о подозрительных письмах в службу безопасности."]},
+{t:"Вредоносное ПО",p:"Вирусы заражают файлы, черви распространяются по сети самостоятельно, трояны маскируются под полезные программы, шпионское ПО следит за действиями пользователя, а программы-вымогатели шифруют данные и требуют выкуп.",k:["Своевременно обновляйте систему и приложения.","Используйте антивирус или EDR-решение.","Храните офлайн-копии, чтобы восстановиться после шифровальщика."]},
+{t:"SQL-инъекции и атаки на веб-приложения",p:"Если приложение подставляет ввод пользователя прямо в текст запроса к базе данных, атакующий может добавить собственные команды и получить или изменить чужие данные. Это одна из классических уязвимостей из списка OWASP Top 10.",k:["Применяйте параметризованные запросы.","Проверяйте и фильтруйте входные данные.","Давайте учётной записи БД только необходимые права."]}]},
+{id:"defense",t:"Защита",d:"Пароли и MFA, резервные копии, управление доступом.",lead:"Эффективная защита многоуровневая: если одна мера не сработала, её подстраховывает другая. Здесь собраны базовые практические меры.",
+tp:[{t:"Пароли и многофакторная аутентификация",p:"Длинный уникальный пароль защищает от подбора и от атак с повторным использованием утёкших паролей. Многофакторная аутентификация (MFA) добавляет второй фактор — код из приложения или аппаратный ключ, поэтому одного украденного пароля недостаточно.",k:["Используйте менеджер паролей и разные пароли для разных сайтов.","Предпочитайте приложения-аутентификаторы и ключи безопасности коду из SMS.","Никому не сообщайте одноразовые коды."]},
+{t:"Резервное копирование: правило 3-2-1",p:"Храните три копии важных данных на двух разных типах носителей, причём одну копию — вне основного места (в другом здании или офлайн). Резервная копия, из которой ни разу не пробовали восстановиться, не гарантирует результата.",k:["Автоматизируйте создание копий.","Защитите копии от перезаписи вредоносным ПО.","Регулярно проверяйте восстановление и описывайте порядок действий."]},
+{t:"Управление доступом и принцип наименьших привилегий",p:"Аутентификация отвечает на вопрос «кто вы?», авторизация — «что вам разрешено?». Принцип наименьших привилегий требует выдавать учётной записи только те права, которые нужны для работы, чтобы взлом одной записи не привёл к потере всего.",k:["Применяйте ролевую модель доступа (RBAC).","Регулярно пересматривайте права и удаляйте неиспользуемые учётные записи.","Разделяйте административные и обычные учётные записи."]}]},
+{id:"crypto",t:"Криптография",d:"Шифрование, хеширование, подписи и сертификаты.",lead:"Криптография превращает данные в форму, недоступную посторонним, и позволяет проверять подлинность. Её методы лежат в основе HTTPS, мессенджеров и банковских приложений.",
+tp:[{t:"Симметричное и асимметричное шифрование",p:"Симметричное шифрование (например, AES) использует один общий ключ и работает быстро, поэтому подходит для больших объёмов данных. Асимметричное (например, RSA) использует пару ключей — открытый и закрытый, что решает задачу безопасной передачи ключа. На практике их комбинируют.",k:["Не придумывайте собственные алгоритмы шифрования.","Закрытый ключ нужно защищать лучше всего остального.","Выбирайте проверенные библиотеки и актуальные длины ключей."]},
+{t:"Хеширование",p:"Хеш-функция превращает данные в «отпечаток» фиксированной длины, по которому нельзя восстановить исходное значение; при малейшем изменении данных хеш полностью меняется. Пароли хранят в виде хешей с уникальной «солью», используя медленные алгоритмы bcrypt, scrypt или Argon2.",k:["Не используйте MD5 и SHA-1 для защиты.","Добавляйте уникальную соль к каждому паролю.","Для проверки целостности файлов применяйте SHA-256."]},
+{t:"Цифровая подпись и сертификаты",p:"Цифровая подпись — это хеш документа, зашифрованный закрытым ключом автора. Любой может проверить её открытым ключом и убедиться, что документ не изменён и подписан именно этим владельцем. Сертификаты, выданные удостоверяющими центрами, связывают открытый ключ с конкретным человеком или сайтом.",k:["Проверяйте срок действия и издателя сертификата.","Храните закрытые ключи на защищённых носителях."]}]},
+{id:"network",t:"Сети",d:"Межсетевые экраны, IDS/IPS, TLS, HTTPS и VPN.",lead:"Сеть — главный путь, по которому проходят и данные, и атаки. Сетевые средства защиты фильтруют трафик, обнаруживают вторжения и шифруют соединения.",
+tp:[{t:"Межсетевые экраны (файрволы)",p:"Файрвол разрешает или блокирует трафик по правилам: адресам, портам и протоколам. Хорошая практика — запрет по умолчанию: разрешено только то, что явно необходимо. Сеть делят на сегменты, чтобы взлом одного узла не открывал доступ ко всему остальному.",k:["Закрывайте неиспользуемые порты.","Разделяйте пользовательскую, серверную и гостевую сети.","Регулярно проверяйте правила и журналы."]},
+{t:"Системы обнаружения и предотвращения вторжений (IDS/IPS)",p:"IDS анализирует трафик и события, ищет подозрительное поведение и отправляет оповещения. IPS идёт дальше и может автоматически блокировать атаку. Обнаружение строится на сигнатурах известных атак и на поиске аномалий.",k:["Настройте оповещения, чтобы не тонуть в ложных срабатываниях.","Передавайте события в централизованную систему (SIEM)."]},
+{t:"TLS, HTTPS и VPN",p:"TLS шифрует соединение между браузером и сайтом; значок замка в HTTPS означает, что канал зашифрован, а сертификат соответствует адресу. VPN создаёт зашифрованный туннель до другой сети — полезно в публичном Wi-Fi и для удалённого доступа к корпоративным ресурсам.",k:["Не игнорируйте предупреждения браузера о сертификате.","VPN скрывает трафик от локальной сети, но не от сайтов, на которые вы входите под своей учётной записью."]}]},
+{id:"law",t:"Право и стандарты",d:"ISO/IEC 27001, GDPR, закон 152-ФЗ.",lead:"Информационная безопасность регулируется стандартами и законами. Они определяют, какие меры организация обязана принимать и какую ответственность несёт.",
+tp:[{t:"ISO/IEC 27001",p:"Международный стандарт описывает систему менеджмента информационной безопасности (СМИБ): определение области действия, оценка рисков, выбор мер защиты, аудит и постоянное улучшение. Организации могут пройти сертификацию у независимых аудиторов.",k:["Необходима поддержка руководства.","Меры выбираются на основе рисков, а не по фиксированному списку."]},
+{t:"GDPR",p:"Общий регламент ЕС по защите данных устанавливает принципы законности, ограничения целей и минимизации данных и даёт людям право получать, исправлять и удалять свои данные. О некоторых утечках нужно уведомлять надзорный орган, как правило, в течение 72 часов.",k:["Собирайте только необходимые данные.","Фиксируйте, зачем и на каком основании обрабатываете данные."]},
+{t:"Закон 152-ФЗ «О персональных данных»",p:"Российский закон регулирует сбор, хранение и использование персональных данных. Оператор обязан получать согласие субъекта, ограничивать цели обработки и принимать правовые, организационные и технические меры защиты. За нарушения предусмотрена ответственность.",k:["Определите, какие персональные данные вы обрабатываете.","Назначьте ответственного за обработку данных.","Уточняйте актуальную редакцию закона на официальных ресурсах."]}]}
+];
+const MORE={
+basics:[{t:"Расширенные модели и количественная оценка рисков",p:"Помимо триады CIA используют свойства подлинности (authenticity), подотчётности (accountability), неотказуемости (non-repudiation) и надёжности; гексада Паркера добавляет владение и полезность. Принцип эшелонированной защиты (defense in depth) требует независимых уровней: физического, сетевого, уровня узла, приложения и данных, а также организационных мер. Процесс управления рисками по ISO/IEC 27005: установление контекста, идентификация, анализ, оценка, обработка и мониторинг; остаточный риск принимает руководство. Количественная оценка: ALE = SLE × ARO, где SLE = стоимость актива × фактор подверженности (EF), а ARO — ожидаемое число инцидентов в год.",k:["Модель угроз STRIDE: подмена (Spoofing), изменение (Tampering), отказ от авторства (Repudiation), раскрытие информации (Information disclosure), отказ в обслуживании (DoS), повышение привилегий (Elevation of privilege).","Пример: актив 1 000 000 ₽, EF 40 %, ARO 0,5 → SLE 400 000 ₽, ALE 200 000 ₽ в год; мера защиты оправдана, если стоит меньше снижения ALE.","Стратегии обработки риска: снижение, передача, принятие, избегание."]}],
+threats:[{t:"Жизненный цикл атаки, MITRE ATT&CK и OWASP Top 10",p:"Модель Cyber Kill Chain описывает семь этапов: разведка, подготовка средств, доставка, эксплуатация, установка, управление (C2) и действия по цели. База MITRE ATT&CK систематизирует тактики и техники реальных атак (начальный доступ, исполнение, закрепление, повышение привилегий, обход защиты, получение учётных данных, перемещение внутри сети, эксфильтрация, воздействие) и применяется для оценки покрытия обнаружения. В OWASP Top 10 (редакция 2021) входят нарушение контроля доступа, криптографические сбои, инъекции, небезопасное проектирование, ошибки конфигурации, уязвимые компоненты, ошибки аутентификации, нарушения целостности ПО и данных, недостатки журналирования и SSRF.",k:["XSS: внедрение скрипта в страницу; защита — экранирование вывода по контексту и политика Content-Security-Policy.","CSRF: заставляет браузер жертвы отправить запрос с её сессией; защита — токены, атрибут SameSite у cookie.","DDoS: объёмные атаки (насыщение канала), атаки на протоколы (SYN flood) и на уровень приложения (HTTP flood); защита — фильтрация на стороне провайдера, CDN, ограничение частоты запросов."]}],
+defense:[{t:"Аутентификация по NIST SP 800-63B и модели контроля доступа",p:"Современные рекомендации NIST SP 800-63B (редакция 4) требуют: длина пароля не менее 15 символов, если он единственный фактор, и не менее 8, если используется как один из факторов; допускать не менее 64 символов; не навязывать правила состава («одна цифра, один символ») и периодическую смену без признаков компрометации; сверять пароли со списками скомпрометированных; ограничивать число попыток. Одноразовые коды TOTP описаны в RFC 6238; наиболее устойчивы к фишингу аппаратные ключи и passkeys на базе FIDO2/WebAuthn, привязанные к домену сайта. Модели доступа: DAC (владелец назначает права), MAC (метки секретности, решает политика), RBAC (права связаны с ролями) и ABAC (решение по атрибутам пользователя, ресурса и контекста).",k:["Резервное копирование: полное, инкрементное (изменения с прошлой копии любого типа) и дифференциальное (изменения с последней полной).","RPO — допустимая потеря данных по времени, RTO — допустимое время восстановления; от них зависит частота копирования и архитектура.","Неизменяемые (immutable) копии и офлайн-хранение защищают от шифровальщиков."]}],
+crypto:[{t:"Алгоритмы, режимы работы и постквантовая криптография",p:"AES — блочный шифр с блоком 128 бит и ключами 128, 192 или 256 бит. Режим ECB небезопасен, так как одинаковые блоки дают одинаковый шифртекст; CBC требует непредсказуемого вектора инициализации и не защищает целостность; предпочтителен аутентифицированный режим GCM (AEAD), где nonce нельзя повторять с одним ключом. В российских стандартах применяются блочные шифры «Кузнечик» и «Магма» (ГОСТ Р 34.12-2015) и хеш-функция «Стрибог» (ГОСТ Р 34.11-2012). RSA считается достаточным при модуле от 2048 бит (рекомендуется 3072), эллиптические кривые (P-256, Ed25519, X25519) дают сопоставимую стойкость при коротких ключах. Для хранения паролей OWASP рекомендует Argon2id: минимум 19 МиБ памяти, 2 итерации, параллелизм 1.",k:["Обмен ключами по Диффи — Хеллману (в том числе на эллиптических кривых) создаёт общий секрет по открытому каналу.","Против квантового компьютера уязвимы RSA и ECC; NIST стандартизировал ML-KEM (FIPS 203), ML-DSA (FIPS 204) и SLH-DSA (FIPS 205).","Для симметричных шифров запас прочности обеспечивает ключ 256 бит."]}],
+network:[{t:"Протокол TLS 1.3, типы файрволов и защищённые туннели",p:"TLS 1.3 (RFC 8446) завершает рукопожатие за один круговой обмен (1-RTT), всегда использует эфемерный обмен ключами (EC)DHE, что обеспечивает прямую секретность (forward secrecy), и допускает только AEAD-шифры, такие как AES-GCM и ChaCha20-Poly1305. Обмен ключами через RSA и устаревшие алгоритмы удалены. Режим 0-RTT ускоряет возобновление, но уязвим к повторному воспроизведению запросов. Браузер проверяет цепочку сертификатов до доверенного корневого центра, срок действия, соответствие имени хоста и статус отзыва; заголовок HSTS запрещает возврат к HTTP.",k:["Файрволы: пакетные фильтры (L3/L4), с контролем состояния соединений (stateful), прикладного уровня (proxy, WAF) и NGFW с глубокой инспекцией и распознаванием приложений.","IPsec (режимы туннеля и транспорта, протоколы ESP и IKEv2) и WireGuard обеспечивают шифрованные VPN-каналы.","DNSSEC подписывает DNS-ответы и защищает от подмены, но не шифрует запросы; для этого служат DoT и DoH."]}],
+law:[{t:"Система нормативных документов: РФ, ЕС, международные стандарты",p:"В России основу составляют законы № 149-ФЗ «Об информации, информационных технологиях и о защите информации», № 152-ФЗ «О персональных данных» и № 187-ФЗ «О безопасности критической информационной инфраструктуры». Требования по защите конкретизируют приказы ФСТЭК России: № 17 от 11.02.2013 для государственных информационных систем и № 21 от 18.02.2013 для персональных данных. Для финансовых организаций применяется ГОСТ Р 57580.1-2017. Стандарт ISO/IEC 27001:2022 в приложении A содержит 93 меры в четырёх группах: организационные (37), в отношении персонала (8), физические (14) и технологические (34). GDPR в статье 32 требует мер, соразмерных риску, в статье 33 — уведомления надзорного органа об утечке в течение 72 часов; штрафы достигают 20 млн евро или 4 % мирового оборота.",k:["Для нормативных требований всегда сверяйтесь с действующей редакцией на официальных ресурсах (publication.pravo.gov.ru, fstec.ru, eur-lex.europa.eu).","Сертификация по ISO/IEC 27001 проводится независимым органом; область действия СМИБ и заявление о применимости мер (SoA) обязательны."]}]};
+S.forEach(s=>s.tp.push(...MORE[s.id]));
+const $=s=>document.querySelector(s);
+const pages=[{id:"",t:"Главная"},...S,{id:"password",t:"Проверка пароля"},{id:"profile",t:"Профиль"},{id:"stats",t:"Статистика"},{id:"admin",t:"Администрирование"}];
+function buildNav(){const c=location.hash.replace(/^#\/?/,"");
+  $("#nav").innerHTML="<h2>Разделы</h2>"+pages.filter(p=>p.id!=="profile"&&(p.id!=="stats"||mod())&&(p.id!=="admin"||adm())).map(p=>`<a href="#/${p.id}" data-id="${p.id}"${p.id===c?' aria-current="page"':""}>${p.t}</a>`).join("")}
+const RNAME={user:"Пользователь",moderator:"Модератор",admin:"Администратор"};
+function mod(){return adm()||(!!acct&&(ld("kb_users",{})[acct]||{}).role==="moderator")}
+function adm(){const u=ld("kb_users",{}),ks=Object.keys(u);if(!acct||!u[acct])return false;
+  if(ks.length&&!ks.some(k=>u[k].role==="admin")){u[ks[0]].role="admin";sv("kb_users",u)}return u[acct].role==="admin"}
+$("#mt").addEventListener("click",()=>{const o=$("#nav").classList.toggle("open");$("#mt").setAttribute("aria-expanded",o)});
+function updTop(){buildNav();if(!prof){$("#pa").textContent="👤";$("#pa").style.background="";$("#pn2").textContent="Войти";return}const a=$("#pa");a.textContent=(prof.nick||"👤").slice(0,1).toUpperCase();a.style.background=prof.color;$("#pn2").textContent=prof.nick||"Профиль"}
+const COMMON=["password","qwerty","123456","12345678","111111","admin","letmein","welcome","iloveyou","пароль","йцукен"];
+function rate(p){
+  const c={len:p.length>=12,low:/[a-zа-я]/.test(p),up:/[A-ZА-Я]/.test(p),dig:/\d/.test(p),sym:/[^A-Za-zА-Яа-я0-9]/.test(p)};
+  const common=COMMON.some(w=>p.toLowerCase().includes(w));
+  c.com=!common;
+  let s=Math.min(p.length,16)*3+[c.low,c.up,c.dig,c.sym].filter(Boolean).length*8;
+  if(p.length>=12)s+=10;if(p.length>=16)s+=10;
+  if(/(.)\1{2,}/.test(p))s-=15;
+  if(/(012|123|234|345|456|567|678|789|abc|bcd|cde|qwe|asd)/i.test(p))s-=15;
+  if(common)s=Math.min(s,15);
+  s=Math.max(0,Math.min(100,s));
+  return{s,c,l:s<40?"red":s<70?"yellow":"green"};
+}
+const LBL={red:"Плохой пароль",yellow:"Средний пароль",green:"Хороший пароль"};
+const TIP={red:"Пароль легко подобрать. Сделайте его длиннее и добавьте разные типы символов.",yellow:"Неплохо, но можно лучше: увеличьте длину до 12–16 символов и избегайте простых последовательностей.",green:"Надёжный пароль. Используйте его только для одного сайта и храните в менеджере паролей."};
+function passwordPage(){
+  $("#app").innerHTML=`<div class="crumb"><a href="#/">Главная</a> / Проверка пароля</div><div class="page"><h1>Проверка пароля</h1>
+<p class="lead">Введите тестовый пароль, и сервис оценит его по длине, разнообразию символов и распространённым ошибкам. Проверка выполняется только в вашем браузере: пароль никуда не отправляется и не сохраняется. Не вводите свои реальные пароли.</p>
+<div class="pw"><div class="row"><input id="pw" type="password" autocomplete="off" spellcheck="false" aria-label="Тестовый пароль" placeholder="Введите тестовый пароль"><button id="tg" type="button">Показать</button></div>
+<div class="meter" id="m" data-l=""><i></i><i></i><i></i></div>
+<p id="lvl" aria-live="polite">Введите пароль</p><p id="tip" class="lead" style="font-size:1rem;margin:0">Красный — плохой, жёлтый — средний, зелёный — хороший.</p>
+<ul class="chk" id="chk"></ul></div>
+<div class="topic"><h2>Как устроена оценка</h2><p>Баллы начисляются за длину (до 16 символов), наличие строчных и заглавных букв, цифр и специальных символов, а также за длину от 12 символов. Баллы снимаются за повторы («aaa») и последовательности («123», «qwe»). Если пароль содержит популярное слово, он автоматически считается плохим.</p><ul><li>Красный: менее 40 баллов из 100.</li><li>Жёлтый: от 40 до 69 баллов.</li><li>Зелёный: 70 баллов и выше.</li></ul></div></div>`;
+  const items=[["len","Не менее 12 символов"],["low","Есть строчные буквы"],["up","Есть заглавные буквы"],["dig","Есть цифры"],["sym","Есть специальные символы (! ? # и др.)"],["com","Нет популярных слов"]];
+  const upd=()=>{const v=$("#pw").value;const m=$("#m");
+    if(!v){m.dataset.l="";$("#lvl").textContent="Введите пароль";$("#lvl").className="";$("#tip").textContent="Красный — плохой, жёлтый — средний, зелёный — хороший.";$("#chk").innerHTML=items.map(i=>`<li>${i[1]}</li>`).join("");return}
+    const r=rate(v);m.dataset.l=r.l;$("#lvl").className=r.l;$("#lvl").textContent=LBL[r.l]+" ("+r.s+"/100)";$("#tip").textContent=TIP[r.l];
+    $("#chk").innerHTML=items.map(i=>`<li class="${r.c[i[0]]?"ok":""}">${i[1]}</li>`).join("")};
+  $("#pw").addEventListener("input",upd);upd();
+  $("#pw").addEventListener("change",()=>{if(prof&&$("#pw").value){const r=rate($("#pw").value);prof.pwChecks++;if(r.s>prof.bestPw)prof.bestPw=r.s;save()}});
+  $("#tg").addEventListener("click",()=>{const i=$("#pw"),h=i.type==="password";i.type=h?"text":"password";$("#tg").textContent=h?"Скрыть":"Показать"});
+}
+function home(){
+  const nt=S.reduce((n,s)=>n+s.tp.length,0);
+  const thr=[[20,"0s"],[110,"1.2s"],[200,"2.4s"],[290,"3.6s"]].map(t=>`<g class="tg" style="--a:${t[0]}deg"><circle cx="150" cy="10" r="5" style="--d:${t[1]}"/></g>`).join("");
+  $("#app").innerHTML=`<section class="hero2"><div><h1>База знаний по информационной безопасности</h1>
+<p class="scr" id="scr" aria-hidden="true"></p><p class="scd" id="scd" aria-hidden="true"></p>
+<p class="lead">Образовательный веб-ресурс: систематизированные материалы об угрозах, методах защиты, криптографии, сетевой безопасности и нормативных требованиях. Он рассчитан на студентов, преподавателей и всех, кто начинает работать с защитой информации. Основные цели защиты — конфиденциальность, целостность и доступность.</p>
+<div class="acts"><a class="btn" href="#/basics">Начать с основ</a><a class="btn ghost" href="#/password">Проверить пароль</a></div></div>
+<div class="shw"><svg class="shield" viewBox="0 0 300 300" aria-hidden="true"><circle class="ring" cx="150" cy="150" r="110" opacity=".35"/><g class="rg"><circle class="ring" cx="150" cy="150" r="82" stroke-dasharray="6 10"/></g><g class="rg b"><circle class="ring" cx="150" cy="150" r="56" stroke-dasharray="14 8"/></g>${thr}
+<g class="core"><path d="M150 112l32 12v22c0 20-13 34-32 42-19-8-32-22-32-42v-22z" fill="var(--ac)"/><circle cx="150" cy="148" r="7" fill="var(--panel)"/><rect x="147" y="150" width="6" height="13" rx="2" fill="var(--panel)"/></g></svg>
+<small>Эшелонированная защита: каждый уровень останавливает то, что прошло предыдущий.</small></div></section>
+<div class="kpi"><div><b>${S.length}</b>тематических разделов</div><div><b>${nt}</b>подробных статей</div><div><b>3</b>уровня оценки пароля</div></div>
+<div class="about"><div class="topic"><h3>О ресурсе</h3><p>База знаний охватывает путь от базовых понятий и моделей угроз до алгоритмов шифрования, сетевых протоколов и нормативных документов РФ, ЕС и международных стандартов. Каждый раздел размещён на отдельной странице.</p></div>
+<div class="topic"><h3>Интерактивные возможности</h3><p>Проверка надёжности пароля с цветовой оценкой, личный профиль с прогрессом и достижениями, статистика посещаемости для администраторов.</p></div>
+<div class="topic"><h3>Как пользоваться</h3><p>Выберите раздел в меню слева и читайте статьи по порядку; кнопки внизу страницы ведут к соседним разделам. Войдите через кнопку в правом верхнем углу, и профиль сохранит ваш прогресс.</p></div></div>
+<h2 class="sec">Разделы</h2>
+<div class="grid">${[...S,{id:"password",t:"Проверка пароля",d:"Интерактивная проверка надёжности пароля: красный, жёлтый или зелёный результат."},{id:"profile",t:"Профиль",d:"Ваши данные, прогресс изучения разделов и достижения."},{id:"stats",t:"Статистика",d:"Посещаемость сайта: просмотры, посетители и популярные страницы (для администраторов и модераторов)."},{id:"admin",t:"Администрирование",d:"Пользователи, роли и удаление учётных записей (для администраторов)."}].filter(s=>(s.id!=="stats"||mod())&&(s.id!=="admin"||adm())).map(s=>`<a class="card" href="#/${s.id}"><h3>${s.t}</h3><p>${s.d}</p></a>`).join("")}</div>`;
+}
+let scT=null;
+const WORDS=[["Конфиденциальность","Данные видят только те, кому это разрешено."],["Целостность","Данные не изменены без разрешения."],["Доступность","Данные и сервисы доступны, когда они нужны."]];
+function scramble(){
+  const el=$("#scr"),ds=$("#scd");if(!el)return;
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches){el.textContent="Конфиденциальность · Целостность · Доступность";ds.textContent="Три цели защиты информации.";return}
+  let i=0;const CH="01#@%&*+=?";
+  const run=()=>{const w=WORDS[i%3][0];ds.textContent=WORDS[i%3][1];i++;ds.style.opacity=0;let f=0;const N=22;
+    clearInterval(scT);scT=setInterval(()=>{f++;const k=Math.floor(w.length*f/N);
+      el.textContent=w.slice(0,k)+[...w.slice(k)].map(()=>CH[Math.random()*CH.length|0]).join("");
+      if(f>=N){clearInterval(scT);el.textContent=w;ds.style.opacity=1;scT=setTimeout(run,2600)}},45)};
+  run();
+}
+function section(s,i){
+  const prev=pages[i-1],next=pages[i+1];
+  $("#app").innerHTML=`<div class="crumb"><a href="#/">Главная</a> / ${s.t}</div><div class="page"><h1>${s.t}</h1><p class="lead">${s.lead}</p>
+${s.tp.map(x=>`<article class="topic"><h2>${x.t}</h2><p>${x.p}</p><ul>${x.k.map(k=>`<li>${k}</li>`).join("")}</ul></article>`).join("")}
+<div class="pn"><a href="#/${prev.id}">← ${prev.t}</a><a href="#/${next.id}">${next.t} →</a></div></div>`;
+}
+function route(){
+  clearInterval(scT);
+  const id=location.hash.replace(/^#\/?/,"");
+  const i=pages.findIndex(p=>p.id===id);const idx=i<0?0:i;
+  document.querySelectorAll("#nav a").forEach(a=>a.setAttribute("aria-current",a.dataset.id===pages[idx].id?"page":"false"));
+  const p=pages[idx];
+  $("#pf").setAttribute("aria-current",p.id==="profile"?"page":"false");$("#nav").classList.remove("open");$("#mt").setAttribute("aria-expanded","false");
+  if(p.id==="")home();else if(p.id==="password")passwordPage();else if(p.id==="profile")profilePage();else if(p.id==="stats")statsPage();else if(p.id==="admin")adminPage();else{section(p,idx);visit(p.id)}
+  if(p.id==="")scramble();
+  track(p.id);
+  document.title=(p.id?p.t+" — ":"")+"База знаний по информационной безопасности";
+  window.scrollTo(0,0);
+}
+addEventListener("hashchange",route);
+/* ---- Профиль и статистика ---- */
+let db=null,uid=null,prof=null,uname="",acct=null;
+const MEM={};
+const ld=(k,d)=>{let v=null;try{v=localStorage.getItem(k)}catch(e){}if(v){try{return JSON.parse(v)}catch(e){}}return k in MEM?MEM[k]:d};
+const sv=(k,v)=>{MEM[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const persist=()=>{try{localStorage.setItem("kb_t","1");localStorage.removeItem("kb_t");return true}catch(e){return false}};
+const b64=u=>btoa(String.fromCharCode(...u));
+async function hsh(pw,salt){const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);return b64(new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt:Uint8Array.from(atob(salt),c=>c.charCodeAt(0)),iterations:150000,hash:"SHA-256"},k,256)))}
+function vid(){let v=ld("kb_vid",null);if(!v){v="v"+Math.random().toString(36).slice(2,10);sv("kb_vid",v)}return v}
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const DEF={nick:"",group:"",role:"Студент",bio:"",color:"#4b3fd1",visited:[],pwChecks:0,bestPw:0};
+const COLORS=["#4b3fd1","#d92d3a","#1f9d55","#c78a00","#0b84c6","#8a3fd1"];
+const PP=()=>"data/users/"+uid+"/profile";
+function save(){if(acct&&prof){const u=ld("kb_users",{});if(u[acct]){u[acct].profile=prof;sv("kb_users",u)}}return Promise.resolve()}
+function curRole(){return (ld("kb_users",{})[acct]||{}).role||"user"}
+const OFF='<div class="note">Профиль и статистика работают при входе в аккаунт claude.ai: данные хранятся в защищённом хранилище. Сейчас оно недоступно (вы не вошли или страница открыта по публичной ссылке).</div>';
+const TITLE=Object.fromEntries(pages.map(p=>[p.id,p.t]));
+function track(id){const a=ld("kb_traffic",[]);a.push({page:id,uid:acct||vid(),t:Date.now(),day:new Date().toLocaleDateString("sv")});sv("kb_traffic",a.slice(-1000))}
+function visit(id){if(prof&&!prof.visited.includes(id)){prof.visited.push(id);save()}}
+function profilePage(){
+  let h='<div class="crumb"><a href="#/">Главная</a> / Профиль</div><div class="page"><h1>Профиль</h1><p class="lead">Здесь хранятся ваши данные и прогресс: какие разделы вы изучили, сколько паролей проверили и какие достижения получили. Профиль виден только вам.</p>';
+  if(!prof){authPage(h);return}
+  const n=prof.visited.length,tot=S.length;
+  const B=[["Первые шаги",n>=1],["Исследователь: изучены все разделы",n>=tot],["Проверка пароля выполнена",prof.pwChecks>=1],["Мастер паролей: 70+ баллов",prof.bestPw>=70],["Аналитик: 5 проверок",prof.pwChecks>=5]];
+  $("#app").innerHTML=h+`<div class="pw"><div class="who"><div class="av" id="av" style="background:${prof.color}">${esc((prof.nick||"?").slice(0,1).toUpperCase())}</div><div><h2 style="font-size:1.2rem">${esc(prof.nick||"Без имени")}</h2><span class="lead" style="font-size:1rem">${esc(prof.role)}${prof.group?", "+esc(prof.group):""}${", "+RNAME[curRole()]}</span></div></div>
+<div class="form"><label>Имя или псевдоним<input id="f_n" maxlength="40"></label><label>Группа или курс<input id="f_g" maxlength="40"></label>
+<label>Статус<select id="f_r"><option>Студент</option><option>Преподаватель</option><option>Гость</option></select></label>
+<label>О себе<textarea id="f_b" rows="3" maxlength="300"></textarea></label>
+<div><b style="font-size:15px">Цвет аватара</b><div class="sw" id="sw">${COLORS.map(c=>`<button type="button" data-c="${c}" style="background:${c}" aria-label="Цвет ${c}" aria-pressed="${c===prof.color}"></button>`).join("")}</div></div>
+<div><button class="btn" id="sv" type="button">Сохранить профиль</button> <span id="ok" class="lead" style="font-size:1rem" aria-live="polite"></span></div></div></div>
+<div class="topic"><h2>Прогресс изучения</h2><p>Изучено разделов: ${n} из ${tot}.</p><div class="prog"><i style="width:${Math.round(n/tot*100)}%"></i></div>
+<ul>${S.map(s=>`<li><a href="#/${s.id}">${s.t}</a> — ${prof.visited.includes(s.id)?"изучен ✓":"не открыт"}</li>`).join("")}</ul></div>
+<div class="topic"><h2>Достижения</h2><ul class="badges">${B.map(b=>`<li class="${b[1]?"":"off"}">${b[1]?"★ ":"☆ "}${b[0]}</li>`).join("")}</ul>
+<p style="margin-top:12px">Проверок пароля: ${prof.pwChecks}. Лучший результат: ${prof.bestPw} из 100.</p></div>
+<button class="btn ghost" id="rs" type="button">Сбросить прогресс и профиль</button> <button class="btn ghost" id="lo" type="button">Выйти</button></div>`;
+  $("#f_n").value=prof.nick;$("#f_g").value=prof.group;$("#f_r").value=prof.role;$("#f_b").value=prof.bio;
+  $("#sw").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;prof.color=b.dataset.c;$("#av").style.background=b.dataset.c;document.querySelectorAll("#sw button").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  $("#sv").addEventListener("click",async()=>{prof.nick=$("#f_n").value.trim();prof.group=$("#f_g").value.trim();prof.role=$("#f_r").value;prof.bio=$("#f_b").value.trim();await save();updTop();profilePage();$("#ok").textContent="Сохранено"});
+  $("#lo").addEventListener("click",()=>{if(window.doLogout)return window.doLogout();acct=null;prof=null;sv("kb_session",null);updTop();profilePage()});
+  $("#rs").addEventListener("click",async()=>{if(confirm("Удалить данные профиля и прогресс?")){prof={...DEF,visited:[]};await save();profilePage()}});
+}
+function authPage(h){
+  $("#app").innerHTML=h+`<div class="pw"><h2 style="font-size:1.2rem;margin-bottom:10px">Вход и регистрация</h2><div class="form">
+<label>Логин<input id="a_l" maxlength="30" autocomplete="username"></label>
+<label>Пароль<input id="a_p" type="password" autocomplete="current-password"></label>
+<label id="a_r" style="display:none">Повторите пароль<input id="a_p2" type="password" autocomplete="new-password"></label>
+<p id="a_m" class="lead" style="font-size:1rem;margin:0" aria-live="polite"></p>
+<div class="acts"><button class="btn" id="a_in" type="button">Войти</button><button class="btn ghost" id="a_rg" type="button">Зарегистрироваться</button></div></div></div>
+<p class="note">Аккаунт создаётся и хранится только в этом браузере: пароль превращается в хеш PBKDF2 с уникальной солью и никуда не передаётся. Данные не переносятся на другие устройства, поэтому это учебный вариант входа, а не серверная авторизация.</p></div>`;
+  const m=t=>$("#a_m").textContent=t,L=()=>$("#a_l").value.trim().toLowerCase(),P=()=>$("#a_p").value;
+  const enter=l=>{const u=ld("kb_users",{});acct=l;prof={...DEF,visited:[],...u[l].profile};if(!prof.nick)prof.nick=l;sv("kb_session",l);save();updTop();profilePage()};
+  $("#a_in").addEventListener("click",async()=>{const l=L(),u=ld("kb_users",{});if(!u[l]||!P()){m("Введите логин и пароль.");return}
+    if(await hsh(P(),u[l].salt)!==u[l].hash){m("Неверный логин или пароль.");return}enter(l)});
+  $("#a_rg").addEventListener("click",async()=>{
+    if($("#a_r").style.display==="none"){$("#a_r").style.display="grid";m("Повторите пароль и нажмите «Зарегистрироваться» ещё раз.");return}
+    const l=L(),u=ld("kb_users",{});
+    if(!/^[\w.\-а-яё]{3,30}$/i.test(l)){m("Логин: 3–30 символов, буквы, цифры, точка, дефис, подчёркивание.");return}
+    if(u[l]){m("Такой логин уже занят.");return}
+    if(P()!==$("#a_p2").value){m("Пароли не совпадают.");return}
+    if(rate(P()).l==="red"){m("Пароль слишком слабый (красный уровень). Проверьте его на странице «Проверка пароля».");return}
+    const salt=b64(crypto.getRandomValues(new Uint8Array(16)));u[l]={salt,role:Object.keys(u).length?"user":"admin",hash:await hsh(P(),salt),profile:{...DEF,visited:[],nick:l}};sv("kb_users",u);enter(l)});
+}
+let adminMsg="";
+function adminPage(){
+  const h='<div class="crumb"><a href="#/">Главная</a> / Администрирование</div><div class="page"><h1>Администрирование</h1><p class="lead">Список зарегистрированных пользователей. Администратор может изменить роль пользователя или удалить его учётную запись.</p>';
+  if(!adm()){$("#app").innerHTML=h+'<div class="note">Раздел доступен только администраторам.</div><a class="btn" href="#/profile" style="text-decoration:none;display:inline-block">'+(acct?"Открыть профиль":"Войти")+'</a></div>';return}
+  const u=ld("kb_users",{}),ks=Object.keys(u),msg=adminMsg;adminMsg="";
+  $("#app").innerHTML=h+`<div class="kpi"><div><b>${ks.length}</b>пользователей</div><div><b>${ks.filter(k=>u[k].role==="admin").length}</b>администраторов</div><div><b>${ks.filter(k=>u[k].role==="moderator").length}</b>модераторов</div></div>
+<p class="note" role="status">${msg?esc(msg):"Изменение роли применяется сразу. Свою роль и свою учётную запись изменить или удалить нельзя."}</p>
+<div class="tw"><table class="ut"><thead><tr><th>Логин</th><th>Имя</th><th>Изучено</th><th>Роль</th><th>Действия</th></tr></thead><tbody>${ks.map(k=>{const me=k===acct,pr=u[k].profile||{};return `<tr><td>${esc(k)}${me?" (вы)":""}</td><td>${esc(pr.nick||"—")}</td><td>${(pr.visited||[]).length} из ${S.length}</td>
+<td><select data-u="${esc(k)}" class="rs2" aria-label="Роль пользователя ${esc(k)}" ${me?"disabled":""}>${Object.keys(RNAME).map(x=>`<option value="${x}"${(u[k].role||"user")===x?" selected":""}>${RNAME[x]}</option>`).join("")}</select></td>
+<td><button class="btn ghost dn del" data-u="${esc(k)}" type="button" ${me?"disabled":""}>Удалить</button></td></tr>`}).join("")}</tbody></table></div>
+<div class="topic"><h2>Что означают роли</h2><ul><li><b>Пользователь</b> — читает материалы, проверяет пароли и ведёт профиль.</li><li><b>Модератор</b> — дополнительно просматривает статистику посещаемости.</li><li><b>Администратор</b> — просматривает и очищает статистику, назначает роли и удаляет пользователей.</li></ul></div></div>`;
+  document.querySelectorAll(".rs2").forEach(s=>s.addEventListener("change",()=>{const d=ld("kb_users",{}),k=s.dataset.u;if(!d[k]||k===acct)return;d[k].role=s.value;sv("kb_users",d);adminMsg="Роль пользователя «"+k+"»: "+RNAME[s.value]+".";adminPage()}));
+  document.querySelectorAll(".del").forEach(b=>b.addEventListener("click",()=>{const k=b.dataset.u;if(k===acct||!confirm("Удалить пользователя «"+k+"»? Данные его профиля будут стёрты."))return;const d=ld("kb_users",{});delete d[k];sv("kb_users",d);adminMsg="Пользователь «"+k+"» удалён.";adminPage()}));
+}
+function statsPage(){
+  const h='<div class="crumb"><a href="#/">Главная</a> / Статистика</div><div class="page"><h1>Статистика посещаемости</h1><p class="lead">Сводка по просмотрам страниц сайта. Для подсчёта сохраняются только анонимный идентификатор посетителя, название страницы и время просмотра.</p>';
+  if(!mod()){$("#app").innerHTML=h+`<div class="note">Доступ к статистике только для администраторов и модераторов. ${acct?"У вашей учётной записи недостаточно прав.":"Войдите в учётную запись."}</div><a class="btn" href="#/profile" style="text-decoration:none;display:inline-block">${acct?"Открыть профиль":"Войти"}</a></div>`;return}
+  const docs=ld("kb_traffic",[]),us=ld("kb_users",{});
+  const total=docs.length,uniq=new Set(docs.map(d=>d.uid)).size,today=new Date().toLocaleDateString("sv");
+  const td=docs.filter(d=>d.day===today).length,by={};
+  docs.forEach(d=>by[d.page]=(by[d.page]||0)+1);
+  const rows=Object.entries(by).sort((a,b)=>b[1]-a[1]),mx=rows.length?rows[0][1]:1;
+  const days=[...Array(7)].map((_,i)=>{const k=new Date(Date.now()-(6-i)*864e5);return{k:k.toLocaleDateString("sv"),l:k.toLocaleDateString("ru",{day:"numeric",month:"short"})}});
+  days.forEach(d=>d.n=docs.filter(x=>x.day===d.k).length);const dm=Math.max(1,...days.map(d=>d.n));
+  $("#app").innerHTML=h+`<div class="kpi"><div><b>${total}</b>Всего просмотров</div><div><b>${uniq}</b>Уникальных посетителей</div><div><b>${td}</b>Просмотров сегодня</div><div><b>${rows.length?esc(TITLE[rows[0][0]]||"Главная"):"—"}</b>Самая популярная страница</div></div>
+<div class="topic"><h2>Просмотры за 7 дней</h2><div class="cols" role="img" aria-label="Просмотры по дням">${days.map(d=>`<div>${d.n}<i style="height:${Math.round(d.n/dm*120)}px"></i>${d.l}</div>`).join("")}</div></div>
+<div class="topic"><h2>Популярные страницы</h2>${rows.length?rows.map(r=>`<div class="hb"><span>${esc(TITLE[r[0]]||"Главная")}</span><span class="t"><i style="width:${Math.round(r[1]/mx*100)}%"></i></span><b>${r[1]}</b></div>`).join(""):"<p>Данных пока нет. Откройте несколько страниц и обновите статистику.</p>"}</div>
+<p class="note">Учитываются последние 1000 просмотров. Статистика хранится в этом браузере и учитывает только просмотры с этого устройства: сайт без собственного сервера не может собирать данные со всех посетителей.</p>
+${adm()?`<div class="topic"><h2>Перенос и объединение данных</h2><p>${persist()?"Данные сохраняются в этом браузере и остаются после закрытия страницы.":"Браузер запрещает постоянное хранение, поэтому данные живут только до закрытия вкладки."} Чтобы собрать статистику с нескольких устройств, нажмите «Показать данные» на каждом, скопируйте текст и вставьте его в поле на главном устройстве, затем нажмите «Объединить». Повторные записи не дублируются.</p>
+<label for="xj" class="lead" style="font-size:1rem">Данные (JSON)</label><textarea id="xj" rows="4" style="width:100%;padding:12px;font:13px monospace;border:2px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)"></textarea>
+<div class="acts" style="margin-top:10px"><button class="btn ghost" id="ex" type="button">Показать данные</button><button class="btn" id="mg" type="button">Объединить</button><button class="btn ghost" id="cl" type="button">Очистить статистику</button></div><p id="xm" class="lead" style="font-size:1rem" aria-live="polite"></p></div>`:""}
+<button class="btn ghost" id="rf" type="button">Обновить</button></div>`;
+  $("#rf").addEventListener("click",statsPage);
+  $("#ex")?.addEventListener("click",()=>{$("#xj").value=JSON.stringify(ld("kb_traffic",[]))});
+  $("#cl")?.addEventListener("click",()=>{if(confirm("Удалить всю статистику посещений на этом устройстве?")){sv("kb_traffic",[]);statsPage()}});
+  $("#mg")?.addEventListener("click",()=>{try{const a=JSON.parse($("#xj").value);if(!Array.isArray(a))throw 0;const cur=ld("kb_traffic",[]),seen=new Set(cur.map(e=>e.t+e.uid+e.page));let n=0;
+    a.forEach(e=>{if(e&&typeof e.page==="string"&&typeof e.uid==="string"&&typeof e.day==="string"&&Number.isFinite(e.t)){const k=e.t+e.uid+e.page;if(!seen.has(k)){seen.add(k);cur.push({page:e.page,uid:e.uid,t:e.t,day:e.day});n++}}});
+    sv("kb_traffic",cur.sort((x,y)=>x.t-y.t).slice(-1000));statsPage();$("#xm").textContent="Добавлено записей: "+n}catch(e){$("#xm").textContent="Не удалось прочитать данные. Вставьте текст, полученный кнопкой «Показать данные»."}});
+}
+
+
+</script>
+<script type="module">
+/* ===== НАСТРОЙКА: вставьте данные своего проекта Firebase (см. README.md) ===== */
+const CFG={apiKey:"AIzaSyDUVa1j9rF56gPJNWR4rxvxGTDyVi5sUas",authDomain:"securiwiki-abc40.firebaseapp.com",projectId:"securiwiki-abc40",appId:"1:643873562608:web:d317c28c6371812c8e8735"};
+const OWNER_UID="ВСТАВЬТЕ_UID_ВЛАДЕЛЬЦА"; /* UID вашей учётной записи: только она может назначать администраторов */
+/* ============================================================================== */
+const V="https://www.gstatic.com/firebasejs/10.14.1/";
+const legacy=()=>{const s=ld("kb_session",null),u=ld("kb_users",{});if(s&&u[s]){acct=s;prof={...DEF,visited:[],...u[s].profile}}updTop();route()};
+if(CFG.apiKey.startsWith("ВСТАВЬТЕ"))legacy();else try{
+const [{initializeApp},A,F]=await Promise.all([import(V+"firebase-app.js"),import(V+"firebase-auth.js"),import(V+"firebase-firestore.js")]);
+const app=initializeApp(CFG),au=A.getAuth(app),fs=F.getFirestore(app);
+let ME=null;RNAME.owner="Владелец";
+$("#app").textContent="Загрузка…";
+window.adm=()=>!!ME&&(ME.role==="admin"||ME.role==="owner");
+window.mod=()=>adm()||(!!ME&&ME.role==="moderator");
+window.curRole=()=>ME?ME.role:"user";
+window.save=()=>{if(ME&&prof)F.setDoc(F.doc(fs,"users",acct),{profile:prof,nick:prof.nick||""},{merge:true}).catch(()=>{});return Promise.resolve()};
+window.track=id=>{F.addDoc(F.collection(fs,"traffic"),{page:id,uid:acct||vid(),t:Date.now(),day:new Date().toLocaleDateString("sv")}).catch(()=>{})};
+window.doLogout=()=>A.signOut(au);
+const ERR={"auth/invalid-credential":"Неверная почта или пароль.","auth/email-already-in-use":"Эта почта уже зарегистрирована.","auth/weak-password":"Пароль слишком короткий (минимум 6 символов).","auth/invalid-email":"Некорректная почта.","auth/popup-closed-by-user":"Окно входа закрыто."};
+window.authPage=h=>{
+  $("#app").innerHTML=h+`<div class="pw"><h2 style="font-size:1.2rem;margin-bottom:10px">Вход и регистрация</h2><div class="form">
+<label>Электронная почта<input id="a_l" type="email" autocomplete="username"></label>
+<label>Пароль<input id="a_p" type="password" autocomplete="current-password"></label>
+<p id="a_m" class="lead" style="font-size:1rem;margin:0" aria-live="polite">${window.__blk?"Учётная запись удалена администратором.":""}</p>
+<div class="acts"><button class="btn" id="a_in" type="button">Войти</button><button class="btn ghost" id="a_rg" type="button">Зарегистрироваться</button><button class="btn ghost" id="a_g" type="button">Войти через Google</button></div></div></div>
+<p class="note">Учётные записи и профили хранятся в облачной базе Firebase и доступны с любого устройства. Пароли не хранятся на сайте: проверкой занимается Firebase Authentication.</p></div>`;
+  const m=t=>$("#a_m").textContent=t,E=()=>$("#a_l").value.trim(),P=()=>$("#a_p").value;
+  const run=async f=>{window.__blk=false;try{await f()}catch(e){m(ERR[e.code]||"Ошибка: "+(e.code||e.message))}};
+  $("#a_in").onclick=()=>run(()=>A.signInWithEmailAndPassword(au,E(),P()));
+  $("#a_rg").onclick=()=>run(async()=>{if(rate(P()).l==="red"){m("Пароль слишком слабый (красный уровень). Проверьте его на странице «Проверка пароля».");return}await A.createUserWithEmailAndPassword(au,E(),P())});
+  $("#a_g").onclick=()=>run(()=>A.signInWithPopup(au,new A.GoogleAuthProvider()));
+};
+const origStats=window.statsPage;
+window.statsPage=async()=>{
+  if(mod()){$("#app").textContent="Загрузка статистики…";
+    try{sv("kb_traffic",(await F.getDocs(F.query(F.collection(fs,"traffic"),F.orderBy("t","desc"),F.limit(1000)))).docs.map(d=>d.data()))}catch(e){$("#app").innerHTML='<div class="note">Не удалось загрузить статистику. Проверьте правила Firestore.</div>';return}}
+  origStats();$("#xj")?.closest(".topic")?.remove();
+  document.querySelectorAll(".note").forEach(n=>{if(n.textContent.includes("хранится в этом браузере"))n.textContent="Статистика общая для всех посетителей и хранится в Firebase Firestore. Учитываются последние 1000 просмотров."});
+};
+window.adminPage=async()=>{
+  const h='<div class="crumb"><a href="#/">Главная</a> / Администрирование</div><div class="page"><h1>Администрирование</h1><p class="lead">Зарегистрированные пользователи сайта. Администратор может менять роли «пользователь» и «модератор» и удалять такие учётные записи. Назначать и снимать администраторов может только владелец.</p>';
+  if(!adm()){$("#app").innerHTML=h+'<div class="note">Раздел доступен только администраторам.</div></div>';return}
+  let us;try{us=(await F.getDocs(F.collection(fs,"users"))).docs.map(d=>({id:d.id,...d.data()}))}catch(e){$("#app").innerHTML=h+'<div class="note">Не удалось загрузить пользователей. Проверьте правила Firestore.</div></div>';return}
+  const msg=adminMsg,O=ME.role==="owner";adminMsg="";
+  const can=x=>x.id!==acct&&x.role!=="owner"&&(O||x.role!=="admin"),n=r=>us.filter(x=>x.role===r).length;
+  $("#app").innerHTML=h+`<div class="kpi"><div><b>${us.length}</b>пользователей</div><div><b>${n("owner")+n("admin")}</b>владелец и администраторы</div><div><b>${n("moderator")}</b>модераторов</div></div>
+<p class="note" role="status">${msg?esc(msg):"Изменения применяются сразу. Свою роль и свою учётную запись изменить или удалить нельзя."}</p>
+<div class="tw"><table class="ut"><thead><tr><th>Пользователь</th><th>Изучено</th><th>Роль</th><th>Действия</th></tr></thead><tbody>${us.map(x=>`<tr><td>${esc(x.nick||"—")}<br><small>${esc(x.email||"")}${x.id===acct?" (вы)":""}</small></td><td>${((x.profile||{}).visited||[]).length} из ${S.length}</td>
+<td>${can(x)?`<select class="rs2" data-u="${esc(x.id)}" aria-label="Роль пользователя">${(O?["user","moderator","admin"]:["user","moderator"]).map(k=>`<option value="${k}"${x.role===k?" selected":""}>${RNAME[k]}</option>`).join("")}</select>`:RNAME[x.role]||x.role}</td>
+<td><button class="btn ghost dn del" data-u="${esc(x.id)}" type="button" ${can(x)?"":"disabled"}>Удалить</button></td></tr>`).join("")}</tbody></table></div>
+<div class="topic"><h2>Что означают роли</h2><ul><li><b>Пользователь</b> — читает материалы и ведёт профиль.</li><li><b>Модератор</b> — дополнительно просматривает статистику.</li><li><b>Администратор</b> — статистика, управление пользователями и модераторами.</li><li><b>Владелец</b> — всё перечисленное плюс назначение администраторов.</li></ul></div></div>`;
+  const done=t=>{adminMsg=t;adminPage()},fail=()=>done("Операция не выполнена: недостаточно прав.");
+  document.querySelectorAll(".rs2").forEach(s=>s.onchange=()=>F.updateDoc(F.doc(fs,"users",s.dataset.u),{role:s.value}).then(()=>done("Роль изменена: "+RNAME[s.value]+".")).catch(fail));
+  document.querySelectorAll(".del").forEach(b=>b.onclick=async()=>{if(!confirm("Удалить пользователя? Его профиль будет стёрт, а вход закрыт."))return;try{await F.deleteDoc(F.doc(fs,"users",b.dataset.u));await F.setDoc(F.doc(fs,"blocked",b.dataset.u),{t:Date.now()});done("Пользователь удалён.")}catch(e){fail()}});
+};
+A.onAuthStateChanged(au,async u=>{
+  try{
+    if(!u){ME=null;acct=null;prof=null;updTop();route();return}
+    if((await F.getDoc(F.doc(fs,"blocked",u.uid))).exists()){window.__blk=true;await A.signOut(au);return}
+    const ref=F.doc(fs,"users",u.uid);let s=await F.getDoc(ref);
+    if(!s.exists()){await F.setDoc(ref,{email:u.email||"",nick:u.displayName||(u.email||"").split("@")[0],role:u.uid===OWNER_UID?"owner":"user",profile:{...DEF,visited:[]}});s=await F.getDoc(ref)}
+    let d=s.data();if(u.uid===OWNER_UID&&d.role!=="owner"){await F.updateDoc(ref,{role:"owner"});d.role="owner"}
+    ME={uid:u.uid,role:d.role};acct=u.uid;prof={...DEF,visited:[],...d.profile};if(!prof.nick)prof.nick=d.nick||"";
+    updTop();route();
+  }catch(e){console.error(e);ME=null;acct=null;prof=null;updTop();route()}
+});
+}catch(e){console.error(e);legacy()}
+</script>
+</body>
+</html>
